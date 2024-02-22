@@ -27,12 +27,13 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('create.seeker')}}">Job Seeker</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link " aria-disabled="true" href="{{route('create.employer')}}">Employer</a>
+                    </li>
                 @endif
                 @if(\Illuminate\Support\Facades\Auth::check())
 
-                    <li class="nav-item">
-                        <a class="nav-link " aria-disabled="true">Employer</a>
-                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link " aria-disabled="true" id="logout" href="#">Logout</a>
                     </li>

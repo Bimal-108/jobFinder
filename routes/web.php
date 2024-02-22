@@ -26,6 +26,8 @@ Route::controller(UserController::class)->group(function() {
     Route::get('/login', 'login')->name('login');
     Route::post('/login', 'postLogin')->name('login.post');
     Route::post('/logout', 'Logout')->name('logout');
+    Route::get('/register/employer', 'createEmployer')->name('create.employer');
+    Route::post('/register/employer', 'storeEmployer')->name('store.employer');
 });
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
