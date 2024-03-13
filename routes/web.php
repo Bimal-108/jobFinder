@@ -24,7 +24,7 @@ Route::controller(UserController::class)->group(function() {
     Route::get('/register/seeker', 'CreateSeeker')->name('create.seeker');
     Route::post('/register/seeker','StoreSeeker')->name('store.seeker');
     Route::get('/login', 'login')->name('login');
-    Route::post('/login', 'postLogin')->name('login.post');
+    Route::post('/login/post', 'postLogin')->name('postlogin');
     Route::post('/logout', 'Logout')->name('logout');
     Route::get('/register/employer', 'createEmployer')->name('create.employer');
     Route::post('/register/employer', 'storeEmployer')->name('store.employer');
