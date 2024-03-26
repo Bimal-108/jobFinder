@@ -19,7 +19,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 Route::get('/', function () {
     return view('welcome');
 //    return view('user.index');
-});
+})->name('home');
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
 
@@ -38,4 +38,5 @@ Route::controller(UserController::class)->group(function() {
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('verified');
 Route::get('/verify', [DashboardController::class, 'verify'])->name('verification.notice');
+Route::get('/resend/verification/email', [DashboardController::class, 'resend'])->name('resend.email');
 
