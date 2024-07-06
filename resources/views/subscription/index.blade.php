@@ -1,6 +1,9 @@
 <x-layout>
     <div class="container mt-5">
         <div class="row">
+            @if(Session::has('message'))
+                <div class="alert alert-warning">{{Session::get('message')}}</div>
+            @endif
             <div class="col-md-4">
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">

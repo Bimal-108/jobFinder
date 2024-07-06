@@ -2,10 +2,16 @@
     <div class="container mt-5">
         <div class="row justify-content-center">
             Hello, {{auth()->user()->name}}
-            @if(Auth::check() && auth()->user()->user_type == 'employer')
-            <p>Your trial {{now()->format('Y-m-d') > auth()->user()->user_trial ? "was expired": 'will expire'}} on {{auth()->user()->user_trial}}</p>
+            @if(!auth()->user()->billing_ends)
+                @if(Auth::check() && auth()->user()->user_type == 'employer')
+                    <p>Your trial {{now()->format('Y-m-d') > auth()->user()->user_trial ? "was expired": 'will expire'}}
+                        on {{auth()->user()->user_trial}}</p>
+                @endif
             @endif
-            <div class="col-md-3">
+            @if(Auth::check() && auth()->user()->user_type == 'employer')
+                <p>Your membership {{now()->format('Y-m-d') > auth()->user()->billing_ends ? 'was expired' : 'will expire'}} on  {{auth()->user()->billing_ends}}</p>
+            @endif
+                <div class="col-md-3">
                 <div class="card-counter primary">
                     <p class="text-center mt-3 lead">
                         User profile
@@ -13,7 +19,12 @@
                     <button class="btn btn-primary float-end">View</button>
                 </div>
             </div>
-
+            @if(Session::has('success'))
+                <div class="alert alert-success">{{Session::get('success')}}</div>
+            @endif
+            @if(Session::has('error'))
+                <div class="alert alert-danger">{{Session::get('error')}}</div>
+            @endif
             <div class="col-md-3">
                 <div class="card-counter danger">
                     <p class="text-center mt-3 lead">

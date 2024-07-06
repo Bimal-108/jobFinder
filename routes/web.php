@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PostJobController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\isEmployer;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
@@ -37,13 +39,23 @@ Route::controller(UserController::class)->group(function() {
     Route::post('/register/employer', 'storeEmployer')->name('store.employer');
 });
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('verified');
-Route::get('/verify', [DashboardController::class, 'verify'])->name('verification.notice');
-Route::get('/resend/verification/email', [DashboardController::class, 'resend'])->name('resend.email');
+Route::controller(DashboardController::class)->group(function() {
+    Route::get('/dashboard', 'index')->name('dashboard')->middleware('verified');
+    Route::get('/verify', 'verify')->name('verification.notice');
+    Route::get('/resend/verification/email', 'resend')->name('resend.email');
+});
 
+Route::controller(SubscriptionController::class)->group(function() {
+//    Route::group(['middleware' => ['auth', 'isEmployer', 'donotUser']], function () {
+//        Route::get('subscribe',  'subscribe')->name('subscribe');
+//    });
+    Route::get('subscribe',  'subscribe')->name('subscribe');
+    Route::get('pay/weekly', 'initiatePayment')->name('pay.weekly');
+    Route::get('pay/monthly', 'initiatePayment')->name('pay.monthly');
+    Route::get('pay/yearly', 'initiatePayment')->name('pay.yearly');
+    Route::get('payment/success',  'paymentSuccess')->name('payment.success');
+    Route::get('payment/cancel',  'cancel')->name('payment.cancel');
+});
 
-Route::get('subscribe', [SubscriptionController::class, 'subscribe'])->middleware('auth');
-Route::get('pay/weekly', [SubscriptionController::class, 'initiatePayment'])->name('pay.weekly')->middleware('auth');
-Route::get('pay/monthly', [SubscriptionController::class, 'initiatePayment'])->name('pay.monthly')->middleware('auth');
-Route::get('pay/weekly', [SubscriptionController::class, 'initiatePayment'])->name('pay.yearly')->middleware('auth');
+Route::get('job/creat', [PostJobController::class, 'create'])->name('job.create')->middleware('prenium');
 
